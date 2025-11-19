@@ -1,0 +1,106 @@
+# Pre-commit hooks for Vybium projects
+# Install with: pre-commit install
+# Run with: pre-commit run --all-files
+
+repos:
+  # Go-specific hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: '\.md$'
+      - id: end-of-file-fixer
+        exclude: '\.md$'
+      - id: check-yaml
+        args: ["--unsafe"]
+      - id: check-json
+      - id: check-toml
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: ["--maxkb=1000"]
+      - id: check-case-conflict
+      - id: mixed-line-ending
+        args: ["--fix=lf"]
+
+  # Go formatting and linting
+  - repo: https://github.com/dnephin/pre-commit-golang
+    rev: v0.5.1
+    hooks:
+      - id: go-fmt
+        args: ["-s", "-w"]
+        exclude: '^examples/'
+        files: '\.go$'
+      - id: go-imports
+        args: ["-w"]
+        exclude: '^examples/'
+        files: '\.go$'
+      - id: go-vet
+        exclude: '^examples/'
+        files: '\.go$'
+        pass_filenames: false
+        args: ["./..."]
+      - id: go-mod-tidy
+        files: 'go\.mod$|go\.sum$'
+      - id: go-build
+        exclude: '^examples/'
+        files: '\.go$'
+        pass_filenames: false
+        args: ["./..."]
+
+  # Security scanning
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.4.0
+    hooks:
+      - id: detect-secrets
+        args: ["--baseline", ".secrets.baseline"]
+        exclude: '\.md$'
+
+  # Additional Go tools
+  - repo: https://github.com/golangci/golangci-lint
+    rev: v1.55.2
+    hooks:
+      - id: golangci-lint
+        args: ["--timeout=5m", "--skip-dirs=examples"]
+        exclude: '^examples/'
+        files: '\.go$'
+
+  # Custom project-specific checks
+  - repo: local
+    hooks:
+      - id: project-ci
+        name: Run project CI checks
+        entry: bash
+        args: ["./scripts/ci-local.sh"]
+        language: system
+        files: '\.go$'
+        pass_filenames: false
+        always_run: false
+
+  # Documentation checks
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.0.3
+    hooks:
+      - id: prettier
+        types: [markdown]
+        exclude: '^BENCHMARKS\.md$|^LINT_REPORT\.md$'
+
+  # Shell script linting
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.9.0.6
+    hooks:
+      - id: shellcheck
+        args: ["-e", "SC1091"]
+
+# Configuration
+ci:
+  autofix_commit_msg: |
+    [pre-commit.ci] auto fixes from pre-commit.com hooks
+
+    for more information, see https://pre-commit.ci
+  autofix_prs: true
+  autoupdate_branch: ""
+  autoupdate_commit_msg: "[pre-commit.ci] pre-commit autoupdate"
+  autoupdate_schedule: weekly
+  skip: []
+  submodules: false
+

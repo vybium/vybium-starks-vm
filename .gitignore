@@ -1,0 +1,76 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.out
+coverage.out
+*.coverage
+coverage.html
+*_coverage.out
+codes_coverage.out
+utils_coverage.out
+
+# Dependency directories
+vendor/
+
+# Go workspace file
+go.work
+
+# Environment variables
+.env
+.env.local
+
+# IDE specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Benchmark results
+benchmark_results.txt
+*.bench
+benchmarks/
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# Build artifacts
+bin/
+build/
+dist/
+vybium-starks-vm-prover
+
+# Test artifacts
+test_input.json
+test_output.json
+*.proof
+*.claim
+
+# Profiling data
+*.prof
+*.pprof
+cpu.prof
+mem.prof
+
+# Debug files
+debug
+__debug_bin
+
+# OS specific
+Thumbs.db
+.Trash-*
+
+# Program output
+*.bin
+output/

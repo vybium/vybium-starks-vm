@@ -1,0 +1,261 @@
+---
+alwaysApply: true
+---
+
+# Semantic Versioning Rules for Neptune Core Wallet
+
+## Overview
+
+We follow [Semantic Versioning 2.0.0](https://semver.org/) (SemVer) for all version numbering in this project.
+
+## Version Format
+
+**MAJOR.MINOR.PATCH** (e.g., `1.2.3`)
+
+## Version Increment Rules
+
+### 🔴 MAJOR (X.0.0)
+
+Increment when making **backward incompatible** changes:
+
+- Breaking API changes
+- Removing deprecated features
+- Major architectural changes
+- Database schema changes that require migration
+
+### 🟡 MINOR (x.Y.0)
+
+Increment when adding **backward compatible** functionality:
+
+- New features
+- New API endpoints
+- New UI components/pages
+- New configuration options
+- Deprecating existing functionality (with proper notice)
+
+### 🟢 PATCH (x.y.Z)
+
+Increment for **backward compatible** bug fixes:
+
+- Bug fixes that don't change APIs
+- Performance improvements
+- Security patches
+- Documentation updates
+- Internal refactoring
+
+## Pre-release Versions
+
+Use for development/testing:
+
+- `1.0.0-alpha.1` - Early development
+- `1.0.0-beta.1` - Feature complete, testing
+- `1.0.0-rc.1` - Release candidate
+
+## Build Metadata
+
+Optional build information:
+
+- `1.0.0+20240115.1` - Build date and number
+- `1.0.0+sha.abc123` - Git commit hash
+
+## Project-Specific Guidelines
+
+### Electron App Versioning
+
+- **Main Process**: Follow SemVer for core functionality
+- **Renderer Process**: Version with main process
+- **Preload Scripts**: Version with main process
+
+### API Versioning
+
+- **IPC Handlers**: Breaking changes = MAJOR
+- **RPC Endpoints**: Breaking changes = MAJOR
+- **Store Interfaces**: Breaking changes = MAJOR
+
+### UI/UX Changes
+
+- **New Pages/Components**: MINOR
+- **Breaking UI Changes**: MAJOR
+- **Bug Fixes**: PATCH
+
+## Version Management
+
+### Git Tags
+
+- Always tag releases: `git tag v1.2.3`
+- Use annotated tags: `git tag -a v1.2.3 -m "Release v1.2.3"`
+
+### Package.json
+
+- Keep `version` field in sync with git tags
+- Use `npm version` commands for consistency
+
+### Release Notes
+
+- Document all changes in CHANGELOG.md
+- Group by version type (MAJOR/MINOR/PATCH)
+- Include migration guides for MAJOR changes
+
+## Examples
+
+### ✅ Good Versioning
+
+```
+1.0.0 → 1.0.1  # Bug fix
+1.0.1 → 1.1.0  # New feature
+1.1.0 → 2.0.0  # Breaking change
+```
+
+### ❌ Bad Versioning
+
+```
+1.0.0 → 1.0.1  # Adding new feature (should be 1.1.0)
+1.0.1 → 2.0.0  # Bug fix (should be 1.0.2)
+```
+
+## Decision Tree
+
+1. **Breaking change?** → MAJOR
+2. **New feature?** → MINOR
+3. **Bug fix only?** → PATCH
+4. **Pre-release?** → Add `-alpha.1`, `-beta.1`, or `-rc.1`
+
+## Enforcement
+
+- All releases must follow SemVer
+- Automated version checking in CI/CD
+- Code review must verify version appropriateness
+- Breaking changes require team approval
+
+---
+
+_Based on [Semantic Versioning 2.0.0](https://semver.org/)_
+
+# Semantic Versioning Rules for Neptune Core Wallet
+
+## Overview
+
+We follow [Semantic Versioning 2.0.0](https://semver.org/) (SemVer) for all version numbering in this project.
+
+## Version Format
+
+**MAJOR.MINOR.PATCH** (e.g., `1.2.3`)
+
+## Version Increment Rules
+
+### 🔴 MAJOR (X.0.0)
+
+Increment when making **backward incompatible** changes:
+
+- Breaking API changes
+- Removing deprecated features
+- Major architectural changes
+- Database schema changes that require migration
+
+### 🟡 MINOR (x.Y.0)
+
+Increment when adding **backward compatible** functionality:
+
+- New features
+- New API endpoints
+- New UI components/pages
+- New configuration options
+- Deprecating existing functionality (with proper notice)
+
+### 🟢 PATCH (x.y.Z)
+
+Increment for **backward compatible** bug fixes:
+
+- Bug fixes that don't change APIs
+- Performance improvements
+- Security patches
+- Documentation updates
+- Internal refactoring
+
+## Pre-release Versions
+
+Use for development/testing:
+
+- `1.0.0-alpha.1` - Early development
+- `1.0.0-beta.1` - Feature complete, testing
+- `1.0.0-rc.1` - Release candidate
+
+## Build Metadata
+
+Optional build information:
+
+- `1.0.0+20240115.1` - Build date and number
+- `1.0.0+sha.abc123` - Git commit hash
+
+## Project-Specific Guidelines
+
+### Electron App Versioning
+
+- **Main Process**: Follow SemVer for core functionality
+- **Renderer Process**: Version with main process
+- **Preload Scripts**: Version with main process
+
+### API Versioning
+
+- **IPC Handlers**: Breaking changes = MAJOR
+- **RPC Endpoints**: Breaking changes = MAJOR
+- **Store Interfaces**: Breaking changes = MAJOR
+
+### UI/UX Changes
+
+- **New Pages/Components**: MINOR
+- **Breaking UI Changes**: MAJOR
+- **Bug Fixes**: PATCH
+
+## Version Management
+
+### Git Tags
+
+- Always tag releases: `git tag v1.2.3`
+- Use annotated tags: `git tag -a v1.2.3 -m "Release v1.2.3"`
+
+### Package.json
+
+- Keep `version` field in sync with git tags
+- Use `npm version` commands for consistency
+
+### Release Notes
+
+- Document all changes in CHANGELOG.md
+- Group by version type (MAJOR/MINOR/PATCH)
+- Include migration guides for MAJOR changes
+
+## Examples
+
+### ✅ Good Versioning
+
+```
+1.0.0 → 1.0.1  # Bug fix
+1.0.1 → 1.1.0  # New feature
+1.1.0 → 2.0.0  # Breaking change
+```
+
+### ❌ Bad Versioning
+
+```
+1.0.0 → 1.0.1  # Adding new feature (should be 1.1.0)
+1.0.1 → 2.0.0  # Bug fix (should be 1.0.2)
+```
+
+## Decision Tree
+
+1. **Breaking change?** → MAJOR
+2. **New feature?** → MINOR
+3. **Bug fix only?** → PATCH
+4. **Pre-release?** → Add `-alpha.1`, `-beta.1`, or `-rc.1`
+
+## Enforcement
+
+- All releases must follow SemVer
+- Automated version checking in CI/CD
+- Code review must verify version appropriateness
+- Breaking changes require team approval
+
+---
+
+_Based on [Semantic Versioning 2.0.0](https://semver.org/)_

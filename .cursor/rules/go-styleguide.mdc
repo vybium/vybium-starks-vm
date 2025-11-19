@@ -1,0 +1,610 @@
+---
+alwaysApply: true
+---
+
+# Go Style Guide
+
+Based on [Google Go Style Guide](https://google.github.io/styleguide/go/guide)
+
+## Core Principles
+
+1. **Clarity**: Code's purpose and rationale is clear to the reader
+2. **Simplicity**: Accomplish goals in the simplest way possible
+3. **Concision**: High signal-to-noise ratio
+4. **Maintainability**: Easy to modify and extend
+5. **Consistency**: Consistent with broader codebase
+
+## Formatting
+
+- All Go source files MUST conform to `gofmt` output
+- Use `MixedCaps` (camelCase) for multi-word names, not underscores
+- No fixed line length - refactor instead of splitting lines
+- Don't split lines before indentation changes or for long strings
+
+## Naming Conventions
+
+### MixedCaps (CamelCase) Rule
+
+- **ALWAYS use MixedCaps** - no underscores (snake_case) or ALL_CAPS
+- **Exported**: `MaxLength`, `UserService`, `HTTPClient`
+- **Unexported**: `maxLength`, `userService`, `httpClient`
+
+### Exported vs Unexported
+
+- **Exported identifiers**: Start with uppercase letter
+
+  ```go
+  func CalculateTotal() int { ... }
+  const MaxPacketSize = 512
+  type UserService struct { ... }
+  ```
+
+- **Unexported identifiers**: Start with lowercase letter
+  ```go
+  func calculateSum() int { ... }
+  const defaultTimeout = 30
+  type userService struct { ... }
+  ```
+
+### Constants
+
+- **Use MixedCaps** - never ALL_CAPS or underscores
+- **Good**: `MaxRetries`, `DefaultTimeout`, `ExecuteBit`
+- **Bad**: `MAX_RETRIES`, `DEFAULT_TIMEOUT`, `kMaxBufferSize`
+
+```go
+// Good
+const (
+    MaxPacketSize = 512
+    ExecuteBit = 1 << iota
+    WriteBit
+    ReadBit
+)
+
+// Bad
+const (
+    MAX_PACKET_SIZE = 512
+    kMaxBufferSize = 1024
+)
+```
+
+### Initialisms and Acronyms
+
+- **Keep consistent casing** throughout the identifier
+- **Exported**: `URLParser`, `HTTPClient`, `APIGateway`
+- **Unexported**: `urlParser`, `httpClient`, `apiGateway`
+- **Mixed case acronyms**: `IOSDevice`, `gRPCClient`
+
+```go
+// Good
+var HTTPClient = &http.Client{}
+var httpClient = &http.Client{}
+
+// Bad
+var HttpClient = &http.Client{}
+var hTTPClient = &http.Client{}
+```
+
+### Function and Method Names
+
+- **Avoid "Get" prefix** unless it's part of the concept (HTTP GET)
+- **Use descriptive verbs** for complex operations
+- **Good**: `Counts()`, `FetchData()`, `ComputeResult()`
+- **Bad**: `GetCounts()`, `GetData()`
+
+```go
+// Good
+func UserCount() int { ... }
+func FetchUserData() (User, error) { ... }
+
+// Bad
+func GetUserCount() int { ... }
+func GetUserData() (User, error) { ... }
+```
+
+#### Avoid Repetition
+
+- **Omit types** of inputs/outputs when there's no collision
+- **Don't repeat package name** in function names
+- **Don't repeat receiver type** in method names
+- **Don't repeat parameter names** in function names
+- **Don't repeat return value names/types**
+
+```go
+// Bad: Repetitive naming
+package yamlconfig
+func ParseYAMLConfig(input string) (*Config, error)
+
+// Good: Concise naming
+package yamlconfig
+func Parse(input string) (*Config, error)
+
+// Bad: Repeating receiver type
+func (c *Config) WriteConfigTo(w io.Writer) (int64, error)
+
+// Good: Concise method name
+func (c *Config) WriteTo(w io.Writer) (int64, error)
+```
+
+#### Naming Conventions
+
+- **Returning functions**: Use noun-like names
+
+  ```go
+  func (c *Config) JobName(key string) (value string, ok bool)
+  ```
+
+- **Action functions**: Use verb-like names
+
+  ```go
+  func (c *Config) WriteDetail(w io.Writer) (int64, error)
+  ```
+
+- **Type-specific functions**: Include type name at the end
+  ```go
+  func ParseInt(input string) (int, error)
+  func ParseInt64(input string) (int64, error)
+  func AppendInt(buf []byte, value int) []byte
+  ```
+
+### Variable Names
+
+- **Length proportional to scope** and inversely proportional to usage frequency
+- **Small scope (1-7 lines)**: Short names like `i`, `c`, `v`
+- **Medium scope (8-15 lines)**: `userCount`, `isValid`
+- **Large scope (15+ lines)**: `activeUserCount`, `maxRetryAttempts`
+
+```go
+// Good - scope-based naming
+for i := 0; i < 10; i++ { ... }  // Small scope
+var userCount int                 // Medium scope
+var activeUserCount int           // Large scope
+
+// Bad
+var userSlice []User  // Don't include type in name
+var sbx Sandbox       // Avoid unclear abbreviations
+```
+
+### Package Names
+
+- **All lowercase**, no underscores or mixed caps
+- **Short and descriptive**
+- **Good**: `math`, `user`, `http`, `tabwriter`
+- **Bad**: `MathOperations`, `user_service`, `HTTP`, `tabWriter`
+
+#### Multi-word Package Names
+
+- **Remain unbroken and all lowercase**
+- **Good**: `tabwriter`, `oauth2`, `k8s`
+- **Bad**: `tabWriter`, `TabWriter`, `tab_writer`
+
+#### Package Name Exceptions
+
+- **Test packages**: May use `_test` suffix (e.g., `linkedlist_test`)
+- **Generated code packages**: May contain underscores
+- **Integration test packages**: May use underscores (e.g., `linked_list_service_test`)
+
+#### Avoid These Package Names
+
+- **Generic names**: `util`, `utility`, `common`, `helper`, `model`, `testhelper`
+- **Common variable names**: Avoid `count` (use `usercount` instead)
+
+### Receiver Names
+
+- **Short (1-2 letters)**
+- **Abbreviations for the type itself**
+- **Applied consistently** for every receiver of that type
+
+| Long Name                  | Better Name              |
+| -------------------------- | ------------------------ |
+| func (tray Tray)           | func (t Tray)            |
+| func (info \*ResearchInfo) | func (ri \*ResearchInfo) |
+| func (this \*ReportWriter) | func (w \*ReportWriter)  |
+| func (self \*Scanner)      | func (s \*Scanner)       |
+
+### Underscores in Names
+
+- **Generally avoid underscores** in Go identifiers
+- **Exceptions**:
+  1. Package names imported only by generated code
+  2. Test/Benchmark/Example function names in `*_test.go` files
+  3. Low-level libraries interoperating with OS or cgo (rare)
+
+### Context-Aware Naming
+
+- Avoid repetitive names in context
+- `user.Name` not `user.UserName`
+- `db.Users` not `db.UserList`
+- Omit type information unless necessary for clarity
+
+## Code Organization
+
+### Package Structure
+
+- One package per directory
+- Package name should be lowercase, single word
+- Avoid generic names like `util`, `common`, `helpers`
+
+### File Organization
+
+- `main.go` for main package
+- `types.go` for type definitions
+- `handlers.go` for HTTP handlers
+- `service.go` for business logic
+
+### Function Design
+
+- Keep functions small and focused
+- Prefer multiple small functions over one large function
+- Functions should do one thing well
+
+## Error Handling
+
+### Standard Pattern
+
+```go
+if err := doSomething(); err != nil {
+    return fmt.Errorf("context: %w", err)
+}
+```
+
+### Error Wrapping
+
+- Use `fmt.Errorf` with `%w` verb for error wrapping
+- Provide context in error messages
+- Don't wrap errors unnecessarily
+
+### Error Checking
+
+- Check errors immediately
+- Don't ignore errors with `_`
+- Use meaningful error messages
+
+## Testing
+
+### Test Structure
+
+- Test files end with `_test.go`
+- Test functions start with `Test`
+- Use table-driven tests for multiple cases
+
+### Test Naming
+
+```go
+func TestUserService_GetUserByID(t *testing.T) {
+    // test implementation
+}
+```
+
+### Table-Driven Tests
+
+- **Use descriptive test case names** in struct fields
+- **Identify test rows** with meaningful names, not indices
+- **Keep test data simple** - avoid complex conditional behavior in test cases
+
+```go
+// Good: Simple, clear test structure
+type decodeCase struct {
+    name   string
+    input  string
+    output string
+    err    error
+}
+
+func TestDecode(t *testing.T) {
+    codex := setupCodex(t)
+    var tests []decodeCase // test data...
+
+    for _, test := range tests {
+        t.Run(test.name, func(t *testing.T) {
+            output, err := Decode(test.input, codex)
+            if got, want := output, test.output; got != want {
+                t.Errorf("Decode(%q) = %v, want %v", test.input, got, want)
+            }
+            if got, want := err, test.err; !cmp.Equal(got, want) {
+                t.Errorf("Decode(%q) err %q, want %q", test.input, got, want)
+            }
+        })
+    }
+}
+```
+
+### Test Helpers
+
+- **Use `t.Helper()`** in test helper functions
+- **Pass `*testing.T`** as first parameter after context
+- **Keep test helpers simple** and focused
+- **Don't use for assertion libraries** - only for setup/cleanup
+
+```go
+// Good: Test helper with t.Helper()
+func readFile(t *testing.T, filename string) string {
+    t.Helper()
+    contents, err := runfiles.ReadFile(filename)
+    if err != nil {
+        t.Fatal(err)
+    }
+    return string(contents)
+}
+```
+
+### Test Package Organization
+
+#### Same Package Tests
+
+- **File**: `foo_test.go`
+- **Package**: `package foo`
+- **Access**: Can access unexported identifiers
+- **Examples**: Won't have correct package names for users
+
+#### Different Package Tests
+
+- **Package**: `package foo_test`
+- **Use when**: Integration tests, circular dependencies
+- **Import**: Must explicitly import the package being tested
+
+### Testing Framework
+
+- **Use only `testing` package** - no assertion libraries
+- **No third-party testing frameworks** allowed
+- **Standard library provides**: Tests, benchmarks, examples, subtests, logging
+
+### Test Doubles and Helper Packages
+
+#### Test Package Naming
+
+- **Append `test` to original package name**
+- **Example**: `creditcard` → `creditcardtest`
+- **Mark as `testonly` in build files**
+
+```go
+// Good: Test package naming
+package creditcardtest
+
+import "path/to/creditcard"
+
+// Stub stubs creditcard.Service and provides no behavior of its own.
+type Stub struct{}
+
+func (Stub) Charge(*creditcard.Card, money.Money) error { return nil }
+```
+
+#### Test Double Naming
+
+- **Simple case**: Use concise names like `Stub`
+- **Multiple behaviors**: Name by behavior (`AlwaysCharges`, `AlwaysDeclines`)
+- **Multiple types**: Include type name (`StubService`, `StubStoredValue`)
+
+```go
+// Good: Behavior-based naming
+type AlwaysCharges struct{}
+func (AlwaysCharges) Charge(*creditcard.Card, money.Money) error { return nil }
+
+type AlwaysDeclines struct{}
+func (AlwaysDeclines) Charge(*creditcard.Card, money.Money) error {
+    return creditcard.ErrDeclined
+}
+
+// Good: Type-specific naming
+type StubService struct{}
+type StubStoredValue struct{}
+```
+
+#### Test Variable Naming
+
+- **Choose names that differentiate from production types**
+- **Use descriptive names based on context**
+- **Examples**: `spyCC`, `fakeLogger`, `mockDB`
+
+## Concurrency
+
+### Goroutines
+
+- Always know when goroutines will exit
+- Use `sync.WaitGroup` for coordination
+- Avoid creating goroutines in libraries
+
+### Channels
+
+- Use channels for communication, not just signaling
+- Close channels to signal completion
+- Prefer `chan struct{}` for signaling
+
+### Mutexes
+
+- Use `sync.Mutex` for shared state protection
+- Consider `sync.RWMutex` for read-heavy workloads
+- Keep critical sections short
+
+## Performance
+
+### Memory Allocation
+
+- Prefer stack allocation over heap
+- Reuse slices with `[:0]` when possible
+- Use `make` with capacity when size is known
+
+### String Operations
+
+- Use `strings.Builder` for string concatenation
+- Prefer `strings.Cut` over manual parsing
+- Use `strconv` for number conversions
+
+### Slices and Maps
+
+- Preallocate slices with known capacity
+- Use `copy()` for slice operations
+- Check map existence with `ok` idiom
+
+## Documentation
+
+### Comments
+
+- Start with the name being declared
+- Use complete sentences
+- Explain "why" not "what"
+- Update comments when code changes
+
+### Package Documentation
+
+```go
+// Package user provides user management functionality.
+// It handles user creation, authentication, and profile management.
+package user
+```
+
+### Function Documentation
+
+```go
+// GetUserByID retrieves a user by their unique identifier.
+// It returns an error if the user is not found or if there's a database error.
+func GetUserByID(id string) (*User, error)
+```
+
+## Common Patterns
+
+### Initialization
+
+```go
+var (
+    // Package-level variables
+    defaultConfig = Config{
+        Timeout: 30 * time.Second,
+        Retries: 3,
+    }
+)
+```
+
+### Type Assertions
+
+```go
+if str, ok := value.(string); ok {
+    // use str
+}
+```
+
+### Interface Design
+
+- Keep interfaces small
+- Prefer composition over inheritance
+- Use interfaces for behavior, not data
+
+### Constants
+
+```go
+const (
+    StatusPending = "pending"
+    StatusActive  = "active"
+    StatusDeleted = "deleted"
+)
+```
+
+## Anti-Patterns to Avoid
+
+- Don't use `panic()` for normal error handling
+- Don't use `init()` functions unless necessary
+- Don't use blank imports (`import _`)
+- Don't use `interface{}` unless absolutely necessary
+- Don't ignore errors
+- Don't use `goto` statements
+- Don't use `defer` in loops (performance impact)
+- Don't use assertion libraries or third-party testing frameworks
+- Don't use `Get` prefix for getters unless it's part of the concept
+- Don't use ALL_CAPS for constants
+- Don't use underscores in package names (except test packages)
+- Don't use generic package names like `util`, `common`, `helper`
+
+## Global State - Avoid When Possible
+
+### Problematic Global State Patterns
+
+- **Top-level variables** (exported or unexported)
+- **Service locator pattern** with global locator
+- **Callback registries** and similar behaviors
+- **Thick-client singletons** for backends, storage, etc.
+
+```go
+// Bad: Global state patterns
+package logger
+var Sinks []Sink  // Top-level variable
+
+package health
+var unhealthyFuncs []func
+func OnUnhealthy(f func()) {
+    unhealthyFuncs = append(unhealthyFuncs, f)
+}
+
+package useradmin
+var client pb.UserAdminServiceClientInterface
+func Client() *pb.UserAdminServiceClient {
+    if client == nil {
+        client = ...  // Set up client.
+    }
+    return client
+}
+```
+
+### When Global State is Unsafe
+
+- Multiple functions interact via global state in same program
+- Independent test cases interact through global state
+- Users tempted to swap global state for testing
+- Users must consider special ordering requirements
+
+### When Global State is Safe
+
+- **Logically constant** global state
+- **Stateless** package behavior (cache hits/misses indistinguishable)
+- **No external bleeding** (sidecar processes, shared filesystem)
+- **No expectation of predictable behavior**
+
+### If You Must Use Global State
+
+1. **Provide isolated instances** of package types
+2. **Make global APIs thin proxies** to instance APIs
+3. **Only use in binary targets**, not libraries
+4. **Document and enforce invariants**
+5. **Provide reset API** for testing
+
+```go
+// Good: Proper global state design
+package cloudlogger
+func New() *Logger { ... }
+func Register(r *sidecar.Registry, l *Logger) {
+    r.Register("Cloud Logging", l)
+}
+```
+
+## Non-Decisions (Author's Choice)
+
+These are areas where the style guide doesn't prescribe a specific approach:
+
+- **Local variable initialization**: `var i int` vs `i := 0` (equivalent)
+- **Empty composite literals**: `&File{}` vs `new(File)` (equivalent)
+- **Map initialization**: `map[string]bool{}` vs `make(map[string]bool)` (equivalent)
+- **Error creation**: `errors.New("foo")` vs `fmt.Errorf("foo")` for non-formatted strings
+- **Test argument ordering**: `got, want` vs `want, got` in `cmp.Diff` calls (be locally consistent)
+
+## Best Practices
+
+### Code Review Checklist
+
+- [ ] Code follows `gofmt` formatting
+- [ ] Names are clear and consistent
+- [ ] Functions are small and focused
+- [ ] Error handling is proper
+- [ ] Tests cover important cases
+- [ ] Documentation is complete
+- [ ] No obvious performance issues
+
+### Refactoring Guidelines
+
+- Extract complex logic into separate functions
+- Use meaningful variable names
+- Remove dead code and unused imports
+- Simplify complex conditionals
+- Use early returns to reduce nesting
+
+---
+
+_This guide is based on the [Google Go Style Guide](https://google.github.io/styleguide/go/guide) and should be followed for all Go code in this project._
