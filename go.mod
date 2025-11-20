@@ -1,6 +1,6 @@
 module github.com/vybium/vybium-starks-vm
 
-go 1.21
+go 1.24.0
 
 require (
 	github.com/vybium/vybium-crypto v0.1.0
