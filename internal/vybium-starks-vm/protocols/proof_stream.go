@@ -218,4 +218,3 @@ type BFieldCodec interface {
 	// Returns an error if the sequence is malformed or incomplete.
 	Decode(data []field.Element) error
 }
-

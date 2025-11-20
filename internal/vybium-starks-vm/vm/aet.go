@@ -3,8 +3,8 @@ package vm
 import (
 	"fmt"
 
-	"github.com/vybium/vybium-starks-vm/internal/vybium-starks-vm/protocols"
 	"github.com/vybium/vybium-crypto/pkg/vybium-crypto/field"
+	"github.com/vybium/vybium-starks-vm/internal/vybium-starks-vm/protocols"
 )
 
 // AET (Algebraic Execution Trace) represents the complete execution trace

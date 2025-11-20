@@ -82,7 +82,7 @@ func (mt *MasterTable) extractTraceColumns() error {
 	// Note: trace domain length may be larger than padded height if number of
 	// randomizers exceeds padded height. This is expected behavior per triton-vm.
 	// The key relationship is: randomized_trace.Length = 2 * trace.Length
-	
+
 	if paddedHeight > mt.domains.Trace.Length {
 		return fmt.Errorf("AET padded height %d exceeds trace domain length %d",
 			paddedHeight, mt.domains.Trace.Length)
@@ -267,39 +267,39 @@ func (mt *MasterTable) BuildMerkleTree() (*merkle.MerkleTree, error) {
 	var wg sync.WaitGroup
 	errors := make(chan error, numRows)
 
-		// Process rows in batches for efficiency
-		// Optimize: reuse rowValues buffer to avoid per-row allocations
-		batchSize := 1000
-		for startRow := 0; startRow < numRows; startRow += batchSize {
-			endRow := startRow + batchSize
-			if endRow > numRows {
-				endRow = numRows
-			}
-
-			wg.Add(1)
-			go func(start, end int) {
-				defer wg.Done()
-
-				// Reuse buffer across rows in this batch to reduce allocations
-				rowValues := make([]field.Element, numCols)
-
-				for row := start; row < end; row++ {
-					// Collect all values in this row (reusing buffer)
-					for col := 0; col < numCols; col++ {
-						rowValues[col] = mt.extendedColumns[col][row]
-					}
-
-					// Hash the row using Tip5 (direct slice access, no extra allocation)
-					rowHash, err := mt.hashRow(rowValues)
-					if err != nil {
-						errors <- fmt.Errorf("failed to hash row %d: %w", row, err)
-						return
-					}
-
-					leaves[row] = rowHash
-				}
-			}(startRow, endRow)
+	// Process rows in batches for efficiency
+	// Optimize: reuse rowValues buffer to avoid per-row allocations
+	batchSize := 1000
+	for startRow := 0; startRow < numRows; startRow += batchSize {
+		endRow := startRow + batchSize
+		if endRow > numRows {
+			endRow = numRows
 		}
+
+		wg.Add(1)
+		go func(start, end int) {
+			defer wg.Done()
+
+			// Reuse buffer across rows in this batch to reduce allocations
+			rowValues := make([]field.Element, numCols)
+
+			for row := start; row < end; row++ {
+				// Collect all values in this row (reusing buffer)
+				for col := 0; col < numCols; col++ {
+					rowValues[col] = mt.extendedColumns[col][row]
+				}
+
+				// Hash the row using Tip5 (direct slice access, no extra allocation)
+				rowHash, err := mt.hashRow(rowValues)
+				if err != nil {
+					errors <- fmt.Errorf("failed to hash row %d: %w", row, err)
+					return
+				}
+
+				leaves[row] = rowHash
+			}
+		}(startRow, endRow)
+	}
 
 	wg.Wait()
 	close(errors)

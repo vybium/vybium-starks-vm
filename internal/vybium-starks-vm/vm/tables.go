@@ -4,9 +4,9 @@ package vm
 import (
 	"fmt"
 
+	"github.com/vybium/vybium-crypto/pkg/vybium-crypto/field"
 	"github.com/vybium/vybium-starks-vm/internal/vybium-starks-vm/core"
 	"github.com/vybium/vybium-starks-vm/internal/vybium-starks-vm/protocols"
-	"github.com/vybium/vybium-crypto/pkg/vybium-crypto/field"
 )
 
 // TableID uniquely identifies each table in the multi-table architecture

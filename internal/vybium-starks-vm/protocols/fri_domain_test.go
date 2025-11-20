@@ -338,4 +338,3 @@ func BenchmarkComputeNegOmegaIY(b *testing.B) {
 		_, _ = fri.computeNegOmegaIY(i%512, domainElements)
 	}
 }
-

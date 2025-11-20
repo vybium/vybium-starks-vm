@@ -9,8 +9,8 @@ import (
 
 	"golang.org/x/crypto/sha3"
 
-	"github.com/vybium/vybium-starks-vm/internal/vybium-starks-vm/core"
 	"github.com/vybium/vybium-crypto/pkg/vybium-crypto/field"
+	"github.com/vybium/vybium-starks-vm/internal/vybium-starks-vm/core"
 )
 
 // Channel represents a Fiat-Shamir transcript channel

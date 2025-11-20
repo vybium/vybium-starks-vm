@@ -373,4 +373,3 @@ func BenchmarkConfigClone(b *testing.B) {
 		config.Clone()
 	}
 }
-

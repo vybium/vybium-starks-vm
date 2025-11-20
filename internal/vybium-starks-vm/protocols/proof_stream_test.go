@@ -307,7 +307,7 @@ func TestProofStreamTranscriptLength(t *testing.T) {
 // TestProofStreamIncludeInFiatShamirHeuristic tests the heuristic inclusion logic
 func TestProofStreamIncludeInFiatShamirHeuristic(t *testing.T) {
 	testCases := []struct {
-		itemType              ProofItemType
+		itemType                 ProofItemType
 		shouldIncludeInHeuristic bool
 	}{
 		{ProofItemMerkleRoot, true},
@@ -335,4 +335,3 @@ func TestProofStreamIncludeInFiatShamirHeuristic(t *testing.T) {
 		}
 	}
 }
-

@@ -113,4 +113,3 @@ func TestHighSecurityParametersValidation(t *testing.T) {
 		})
 	}
 }
-

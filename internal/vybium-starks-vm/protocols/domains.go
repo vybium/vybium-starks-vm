@@ -177,7 +177,7 @@ func DeriveProverDomains(
 	// Trace domain is derived by halving the randomized trace domain
 	// This ensures proper algebraic relationship between domains
 	// Note: trace domain length may be > padded height if numTraceRandomizers > paddedHeight
-	
+
 	traceDomain, err := randomizedTraceDomain.Halve()
 	if err != nil {
 		return nil, fmt.Errorf("failed to halve randomized trace domain: %w", err)

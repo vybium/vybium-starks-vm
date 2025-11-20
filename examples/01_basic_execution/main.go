@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/vybium/vybium-starks-vm/internal/vybium-starks-vm/vm"
 	"github.com/vybium/vybium-crypto/pkg/vybium-crypto/field"
+	"github.com/vybium/vybium-starks-vm/internal/vybium-starks-vm/vm"
 )
 
 // Example 1: Basic Program Execution

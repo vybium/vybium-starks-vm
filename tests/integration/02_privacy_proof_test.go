@@ -5,10 +5,10 @@ import (
 	"math/big"
 	"testing"
 
+	"github.com/vybium/vybium-crypto/pkg/vybium-crypto/field"
 	"github.com/vybium/vybium-starks-vm/internal/vybium-starks-vm/core"
 	"github.com/vybium/vybium-starks-vm/internal/vybium-starks-vm/protocols"
 	"github.com/vybium/vybium-starks-vm/internal/vybium-starks-vm/vm"
-	"github.com/vybium/vybium-crypto/pkg/vybium-crypto/field"
 )
 
 // Test02_PrivacyProofWithDivine tests privacy proofs:

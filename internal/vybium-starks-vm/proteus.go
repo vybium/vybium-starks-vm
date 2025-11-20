@@ -6,11 +6,11 @@
 package vybiumstarksvm
 
 import (
+	"github.com/vybium/vybium-crypto/pkg/vybium-crypto/field"
 	"github.com/vybium/vybium-starks-vm/internal/vybium-starks-vm/codes"
 	"github.com/vybium/vybium-starks-vm/internal/vybium-starks-vm/core"
 	"github.com/vybium/vybium-starks-vm/internal/vybium-starks-vm/protocols"
 	"github.com/vybium/vybium-starks-vm/internal/vybium-starks-vm/utils"
-	"github.com/vybium/vybium-crypto/pkg/vybium-crypto/field"
 )
 
 // Re-export core types and functions

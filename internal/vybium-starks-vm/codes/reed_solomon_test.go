@@ -86,10 +86,10 @@ func TestReedSolomonCodeIsInCode(t *testing.T) {
 
 	// Test polynomial f(x) = x (degree 1, should be in code)
 	evaluations := []*core.FieldElement{
-		field.NewElementFromInt64(1),  // f(1) = 1
-		field.NewElementFromInt64(2),  // f(2) = 2
-		field.NewElementFromInt64(3),  // f(3) = 3
-		field.NewElementFromInt64(4),  // f(4) = 4
+		field.NewElementFromInt64(1), // f(1) = 1
+		field.NewElementFromInt64(2), // f(2) = 2
+		field.NewElementFromInt64(3), // f(3) = 3
+		field.NewElementFromInt64(4), // f(4) = 4
 	}
 
 	inCode, err := rs.IsInCode(evaluations)
@@ -128,10 +128,10 @@ func TestReedSolomonCodeIsInCodeHighDegree(t *testing.T) {
 
 	// Test polynomial f(x) = x^2 (degree 2, should NOT be in code with maxDeg = 0)
 	evaluations := []*core.FieldElement{
-		field.NewElementFromInt64(1),   // f(1) = 1
-		field.NewElementFromInt64(4),   // f(2) = 4
-		field.NewElementFromInt64(9),   // f(3) = 9
-		field.NewElementFromInt64(16),  // f(4) = 16 mod 17
+		field.NewElementFromInt64(1),  // f(1) = 1
+		field.NewElementFromInt64(4),  // f(2) = 4
+		field.NewElementFromInt64(9),  // f(3) = 9
+		field.NewElementFromInt64(16), // f(4) = 16 mod 17
 	}
 
 	inCode, err := rs.IsInCode(evaluations)
@@ -391,8 +391,8 @@ func TestReedSolomonCodeEvaluateAtPoint(t *testing.T) {
 
 	// Linear polynomial f(x) = x
 	evaluations := []*core.FieldElement{
-		field.NewElementFromInt64(1),  // f(1) = 1
-		field.NewElementFromInt64(2),  // f(2) = 2
+		field.NewElementFromInt64(1), // f(1) = 1
+		field.NewElementFromInt64(2), // f(2) = 2
 	}
 
 	// Evaluate at x = 3
@@ -553,4 +553,3 @@ func BenchmarkReedSolomonCodeInterpolate(b *testing.B) {
 		rs.interpolatePolynomial(evaluations)
 	}
 }
-

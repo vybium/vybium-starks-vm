@@ -156,4 +156,3 @@ func BenchmarkNextPowerOfTwo(b *testing.B) {
 		NextPowerOfTwo(1000)
 	}
 }
-

@@ -545,4 +545,3 @@ func BenchmarkCreateCyclicGroupCoset(b *testing.B) {
 		CreateCyclicGroupCoset(field, omega, 16)
 	}
 }
-

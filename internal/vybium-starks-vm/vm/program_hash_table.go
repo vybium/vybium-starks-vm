@@ -4,10 +4,10 @@ package vm
 import (
 	"fmt"
 
-	"github.com/vybium/vybium-starks-vm/internal/vybium-starks-vm/core"
-	"github.com/vybium/vybium-starks-vm/internal/vybium-starks-vm/protocols"
 	"github.com/vybium/vybium-crypto/pkg/vybium-crypto/field"
 	"github.com/vybium/vybium-crypto/pkg/vybium-crypto/hash"
+	"github.com/vybium/vybium-starks-vm/internal/vybium-starks-vm/core"
+	"github.com/vybium/vybium-starks-vm/internal/vybium-starks-vm/protocols"
 )
 
 // ProgramHashTableImpl implements the Program Hash Table (TIP-0006)

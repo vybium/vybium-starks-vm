@@ -187,7 +187,7 @@ func TestProofStructureComparison(t *testing.T) {
 	t.Logf("✅ Both provers generated valid proofs")
 	t.Logf("✅ Exit codes match (both 0)")
 	t.Logf("⚠️  Proof formats differ:")
-		t.Logf("   - Vybium STARKs VM uses JSON serialization")
+	t.Logf("   - Vybium STARKs VM uses JSON serialization")
 	t.Logf("   - Triton uses bincode (binary)")
 	t.Logf("⚠️  Proof content will differ due to:")
 	t.Logf("   - Different randomness (zero-knowledge)")

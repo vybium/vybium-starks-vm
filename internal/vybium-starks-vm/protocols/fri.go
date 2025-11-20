@@ -334,7 +334,7 @@ func (fri *FRIProtocol) createFinalPolynomial(function []*core.FieldElement) (*c
 	// If not constant, create polynomial from evaluations
 	// This should not happen in a correct FRI proof, but we handle it gracefully
 	// Create proper arithmetic domain for interpolation
-	
+
 	// ArithmeticDomain::of_length(last_codeword.len()).interpolate(last_codeword)
 
 	// Get primitive root of unity for the codeword length

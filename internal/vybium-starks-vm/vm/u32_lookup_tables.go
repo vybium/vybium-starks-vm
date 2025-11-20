@@ -5,8 +5,8 @@ package vm
 import (
 	"fmt"
 
-	"github.com/vybium/vybium-starks-vm/internal/vybium-starks-vm/protocols"
 	"github.com/vybium/vybium-crypto/pkg/vybium-crypto/field"
+	"github.com/vybium/vybium-starks-vm/internal/vybium-starks-vm/protocols"
 )
 
 // Lookup8Bit computes the 8-bit lookup function: L(x) = (x+1)^3 - 1

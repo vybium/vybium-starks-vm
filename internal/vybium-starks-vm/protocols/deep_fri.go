@@ -382,7 +382,7 @@ func (deep *DEEPFRIProtocol) foldFunction(function []*core.FieldElement, current
 	for i := 0; i < len(nextDomain); i++ {
 		// Get the paired points from current domain for folding
 		// Points at indices i and i+n/2 fold together
-		
+
 		if i >= len(function) || i+len(currentDomain)/2 >= len(function) {
 			return nil, fmt.Errorf("index out of bounds for folding")
 		}
