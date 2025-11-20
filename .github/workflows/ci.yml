@@ -28,8 +28,24 @@ jobs:
           go-version: ${{ matrix.go-version }}
           cache: true
 
+      - name: Configure Go for public modules
+        run: |
+          # Allow direct git access for vybium modules if proxy hasn't indexed yet
+          go env -w GOPRIVATE=""
+          go env -w GONOPROXY=""
+          go env -w GONOSUMDB=""
+
       - name: Download dependencies
-        run: go mod download
+        run: |
+          # Try normal download first
+          go mod download || {
+            echo "Module proxy not ready, using direct git access..."
+            # If proxy fails, try direct git (for newly published modules)
+            go env -w GOPRIVATE="github.com/vybium/*"
+            go env -w GONOPROXY="github.com/vybium/*"
+            go env -w GONOSUMDB="github.com/vybium/*"
+            go mod download
+          }
 
       - name: Verify dependencies
         run: go mod verify
