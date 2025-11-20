@@ -58,7 +58,7 @@ jobs:
         with:
           file: ./coverage.out
           flags: unittests
-          name: codecov-atlas-vm
+          name: codecov-vybium-starks-vm
           fail_ci_if_error: false
         continue-on-error: true
 
